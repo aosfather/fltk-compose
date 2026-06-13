@@ -2,7 +2,6 @@ package compose
 
 import (
 	"fltk"
-	"fmt"
 )
 
 type Rect struct {
@@ -61,7 +60,6 @@ func (c *_Component) setSelf(self any) {
 }
 
 func (c *_Component) applyModifier() {
-	fmt.Println(c.modifiers)
 	for _, m := range c.modifiers {
 		m(c.self)
 	}
@@ -114,7 +112,6 @@ func (w *_Window) _Render() {
 		if w.height <= 0 {
 			w.height = 600
 		}
-		fmt.Println(w.title)
 		w.wrap = fltk.NewWindow(w.width, w.height, w.title)
 	}
 	w.wrap.Begin()

@@ -23,7 +23,7 @@ func main() {
 		compose.Column(attr.Point(0, 130), attr.Size(100, 25)).Children(
 			compose.Input(compose.IM_Pass, attr.Size(100, 25)),
 			compose.Input(compose.IM_Normal, attr.Size(100, 25)),
-			compose.Row().Children(compose.Input(compose.IM_Float, attr.Size(100, 25)), compose.Input(compose.IM_Int, compose.Size(100, 25))),
-			compose.ComboBox(attr.Point(0, 270), attr.Size(100, 25), compose.Options([]string{"A", "B", "C"}))),
+			compose.Row().Children(compose.Input(compose.IM_Float, attr.Size(100, 25)), compose.Input(compose.IM_Int, attr.Size(100, 25))),
+			compose.ComboBox(attr.Point(0, 270), attr.Size(100, 25), attr.Options([]string{"A", "B", "C"}))),
 	).Run()
 }

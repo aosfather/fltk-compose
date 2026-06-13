@@ -96,7 +96,6 @@ type _titleAble interface {
 
 func Title(t string) Modifier {
 	return func(target any) {
-		fmt.Println(t)
 		target.(_titleAble).SetTitle(t)
 	}
 }

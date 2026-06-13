@@ -13,3 +13,7 @@ func Size(w, h int) compose.Modifier {
 func Title(t string) compose.Modifier {
 	return compose.Title(t)
 }
+
+func Options(op []string) compose.Modifier {
+	return compose.Options(op)
+}
