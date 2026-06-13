@@ -22,7 +22,6 @@ type Component interface {
 	// Event(int, EventHandle)
 }
 
-type Modifier func(target any)
 type Composable func(modifiers ...Modifier) Component
 
 /**

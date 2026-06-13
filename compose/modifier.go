@@ -2,6 +2,7 @@ package compose
 
 import "fmt"
 
+type Modifier func(target any)
 type _Point struct {
 	x, y int
 }

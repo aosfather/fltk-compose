@@ -153,7 +153,7 @@ func (a *Application) Run() {
 	fltk.Run()
 }
 
-func (a *Application) Children(c ...Component) Component {
+func (a *Application) Layout(c ...Component) *Application {
 	if a.mainWindow == nil {
 		a.mainWindow = Window(a.modifiers...)
 	}
@@ -161,7 +161,7 @@ func (a *Application) Children(c ...Component) Component {
 		a.mainWindow.addChild(component)
 	}
 
-	return a.mainWindow
+	return a
 }
 
 func Window(m ...Modifier) *_Window {
