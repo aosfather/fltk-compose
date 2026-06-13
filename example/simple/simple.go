@@ -1,9 +1,3 @@
-# fltk-compose
-compose gui framework base on fltk
-
-
-# Example
-```go
 package main
 
 import "github.com/aosfather/fltk-compose/compose"
@@ -13,5 +7,3 @@ func main() {
 		compose.Size(400, 400),
 		compose.Title("Hello compose world")).Run()
 }
-
-```
