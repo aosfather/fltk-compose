@@ -30,6 +30,8 @@ type QuantEye struct {
 	weixin      *Weixin
 	recentValue *QuantEyeRecent
 	canNotify   bool
+	sellFormat  string
+	buyFormat   string
 }
 
 func (q *QuantEye) Layout(m ...compose.Modifier) *compose.Application {
@@ -51,6 +53,7 @@ func (q *QuantEye) Layout(m ...compose.Modifier) *compose.Application {
 
 	//消息
 	q.application.Layout(compose.Messages(attr.Point(10, 100), attr.Size(380, 390), attr.Widths(380)).Bind(&q.messages))
+	q.application.Event(q.AfterRender)
 	return q.application
 }
 
@@ -120,15 +123,23 @@ func (q *QuantEye) AfterRender(sender compose.Component, data *compose.EventData
 	q.it_product.Set(q.recentValue.Product)
 	q.it_project.Set(q.recentValue.Project)
 	q.cc_val.Set(q.recentValue.Val)
+	if q.sellFormat == "" {
+		q.sellFormat = compose.NewStyle().Color(10).Medium().ToFormat() + "%s"
+	}
+	if q.buyFormat == "" {
+		q.buyFormat = compose.NewStyle().Color(1).Medium().ToFormat() + "%s"
+	}
+	q.showOut("欢迎使用QuantEye！")
+	q.showOut("点击 ‘开始’  按钮")
 }
 
 func (q *QuantEye) showOut(text string) {
 	lay := "%s"
 	if strings.Contains(text, "sell") {
-		lay = "@C10@m%s"
+		lay = q.sellFormat
 		// say("卖出信号")
 	} else if strings.Contains(text, "buy") {
-		lay = "@C1@m%s"
+		lay = q.buyFormat
 		// say("买入信号")
 	}
 
