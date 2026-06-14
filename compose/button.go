@@ -88,8 +88,19 @@ func (b *_CheckBox) _Render() {
 	}
 }
 
+func (b *_CheckBox) setValue(check bool) {
+	b.wrap.SetValue(check)
+}
 func (b *_CheckBox) Value() bool {
 	return b.wrap.Value()
+}
+
+func (b *_CheckBox) Bind(o *BindObj[bool]) *_CheckBox {
+	if o != nil {
+		o.setter = b.setValue
+		o.getter = b.Value
+	}
+	return b
 }
 
 func CheckBox(m ...Modifier) *_CheckBox {

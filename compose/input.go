@@ -63,6 +63,14 @@ func (b *_Input) Event(h EventHandle) *_Input {
 	return b
 }
 
+func (b *_Input) Bind(o *BindObj[string]) *_Input {
+	if o != nil {
+		o.getter = b.Value
+		o.setter = b.SetValue
+	}
+	return b
+}
+
 func Input(input_type InputModel, m ...Modifier) *_Input {
 	input := &_Input{model: input_type}
 	input.self = input

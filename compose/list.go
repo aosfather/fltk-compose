@@ -46,6 +46,16 @@ func (b *_ComboBox) GetSelect() int {
 	return -1
 }
 
+func (b *_ComboBox) SetSelectText(t string) {
+	if b.wrap != nil {
+		for index, v := range b.Options {
+			if v == t {
+				b.wrap.SetValue(index + 1)
+			}
+		}
+
+	}
+}
 func (b *_ComboBox) GetSelectText() string {
 	index := b.GetSelect()
 	if index >= 0 {
@@ -61,6 +71,24 @@ func (b *_ComboBox) selected() {
 		data.Setalue("value", b.wrap.Value())
 		b.OnSelect(b, data)
 	}
+}
+
+func (b *_ComboBox) Bind(o *BindObj[int]) *_ComboBox {
+	if o != nil {
+		o.getter = b.GetSelect
+		o.setter = b.SetSelect
+	}
+
+	return b
+}
+
+func (b *_ComboBox) BindText(o *BindObj[string]) *_ComboBox {
+	if o != nil {
+		o.getter = b.GetSelectText
+		o.setter = b.SetSelectText
+	}
+
+	return b
 }
 
 func (b *_ComboBox) Event(h EventHandle) *_ComboBox {
