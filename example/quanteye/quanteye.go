@@ -145,9 +145,15 @@ func (q *QuantEye) showOut(text string) {
 
 	ml := q.messages.Get()
 	ml.AddString(lay, text)
-	// q.notify(text)
+	q.notify(text)
 	ml.ToEnd()
 
+}
+
+func (q *QuantEye) notify(msg string) {
+	if q.canNotify && q.weixin != nil {
+		q.weixin.Notify(msg)
+	}
 }
 
 const _File = "./last.json"

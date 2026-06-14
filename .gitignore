@@ -24,3 +24,4 @@ go.work.sum
 # env file
 .env
 example/.DS_Store
+example/quanteye/quanteye
