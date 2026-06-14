@@ -42,13 +42,32 @@ func main() {
 ```
 
 # Basic Component
-## Label
-## Button
-## RadioBox
-## CheckBox
-## ComboBox
-## List
-## TextList
-## Input (text、pass、int、float)
+## component list
+* Label: Displays static text or images for user guidance.
+* Button: Triggers an action when clicked by the user.
+* RadioBox: Allows single selection from a group of mutually exclusive options.
+* CheckBox: Enables toggling individual boolean options on or off.
+* ComboBox: Combines a dropdown list with an editable text field.
+* List: Presents a scrollable collection of selectable items.
+* Messages: text list.
+* Input: Collects user data (variants: text, password, integer, float).
+
+## commond attrible
+Here are simple descriptions for the methods under the attr package 
+* Point: Represents the X and Y coordinates of a component.
+* Size: Defines the width (W) and height (H) of a component.
+* Title: Sets the title text of a window or component.
+
+
 
 # Event
+Events are handled through the Eventmethod, which binds standard component events and delegates them to your custom event handler functions. This approach keeps your code clean and focused, abstracting away the low-level details so you can concentrate on defining application behavior.
+
+The event handling interface follows this signature:
+```go
+func(sender compose.Component, data *compose.EventData)
+```
+This provides a clean, unified contract: senderidentifies the component that triggered the event, while datacarries all relevant event information. It decouples your business logic from specific widget implementations, keeping handlers consistent and easy to maintain.
+
+# Bind
+The binding mechanism streamlines your workflow by letting you focus purely on application logic. Once a component is created and bound, data exchange happens automatically through the bind object—no need to wrestle with the underlying component APIs. It abstracts away the complexity, making state synchronization feel seamless and intuitive.
