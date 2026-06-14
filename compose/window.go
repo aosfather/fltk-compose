@@ -138,15 +138,25 @@ type Application struct {
 	_Title
 	_Component
 	mainWindow *_Window
+	onShow     EventHandle
 }
 
-func (a *Application) Run() {
+func (a *Application) _Render() {
 	if a.mainWindow == nil {
 		a.mainWindow = Window(a.modifiers...)
 	}
 
 	a.mainWindow._Render()
+
+}
+func (a *Application) Run() {
+	a._Render()
 	a.mainWindow.Show()
+	if a.onShow != nil {
+		data := NewEventData("onShow")
+		data.Setalue("obj", "application")
+		a.onShow(a, data)
+	}
 	fltk.Run()
 }
 
@@ -161,6 +171,10 @@ func (a *Application) Layout(c ...Component) *Application {
 	return a
 }
 
+func (a *Application) Event(h EventHandle) *Application {
+	a.onShow = h
+	return a
+}
 func Window(m ...Modifier) *_Window {
 	w := &_Window{}
 	w.modifiers = m
@@ -174,3 +188,5 @@ func App(m ...Modifier) *Application {
 	app.setSelf(app)
 	return app
 }
+
+// before show：OnShow,AferShow

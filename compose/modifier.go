@@ -105,3 +105,13 @@ func Options(op []string) Modifier {
 		target.(_Options).SetOptions(op)
 	}
 }
+
+type _Widths interface {
+	SetColumnWidths(...int)
+}
+
+func Widths(i ...int) Modifier {
+	return func(target any) {
+		target.(_Widths).SetColumnWidths(i...)
+	}
+}

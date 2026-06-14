@@ -17,3 +17,7 @@ func Title(t string) compose.Modifier {
 func Options(op ...string) compose.Modifier {
 	return compose.Options(op)
 }
+
+func Widths(i ...int) compose.Modifier {
+	return compose.Widths(i...)
+}

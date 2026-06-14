@@ -32,6 +32,27 @@ func (b *_Button) Event(h EventHandle) *_Button {
 	return b
 }
 
+func (b *_Button) Bind(o *BindObj[bool]) *_Button {
+	if o != nil {
+		o.getter = func() bool {
+			if b.wrap != nil {
+				return b.wrap.IsActive()
+			}
+			return false
+		}
+		o.setter = func(v bool) {
+			if b.wrap != nil {
+				if v {
+					b.wrap.Activate()
+				} else {
+					b.wrap.Deactivate()
+				}
+			}
+		}
+	}
+	return b
+}
+
 func Button(m ...Modifier) *_Button {
 	b := &_Button{}
 	b.self = b
