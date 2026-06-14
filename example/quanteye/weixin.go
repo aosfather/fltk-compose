@@ -21,7 +21,7 @@ type Weixin struct {
 	last       string
 }
 
-func (w *Weixin) Init() {
+func (w *Weixin) init() {
 	w.buffer = buffer.NewBufferSender(0, 20*time.Second, w.commitMessage)
 	w.ctx = context.Background()
 	w.bot = wechatbot.New(wechatbot.Options{OnQRURL: w.UrlHandler})
@@ -41,6 +41,7 @@ func (w *Weixin) Init() {
 }
 
 func (w *Weixin) Start() {
+	w.init()
 	go w.bot.Run(w.ctx)
 }
 

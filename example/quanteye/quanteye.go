@@ -24,7 +24,6 @@ type QuantEye struct {
 	cc_val      compose.BindObj[int]
 	cc_valText  compose.BindObj[string]
 	it_project  compose.BindObj[string]
-	l_result    compose.BindObj[string]
 	cb_weixin   compose.BindObj[bool]
 	bt_start    compose.BindObj[bool]
 	messages    compose.BindObj[compose.MessageList]
@@ -74,7 +73,6 @@ func (q *QuantEye) start(sender compose.Component, data *compose.EventData) {
 	//启动微信claw通知
 	if q.cb_weixin.Get() {
 		q.weixin = &Weixin{UrlHandler: q.showUrl, Handler: q.OnUserMsg}
-		q.weixin.Init()
 		q.weixin.Start()
 	}
 

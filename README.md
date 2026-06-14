@@ -7,7 +7,7 @@ We chose FLTK because it is lightweight and relatively mature. Our goal is to be
 ## Why compose
 We adopted the Compose pattern to make UI development more intuitive and straightforward, allowing developers to focus their energy on implementing core application functionality.
 
-# Example
+## Example
 ```go
 package main
 
@@ -20,7 +20,7 @@ func main() {
 
 ```
 
-# Hello World
+## Hello World
 ```go
 package main
 
@@ -41,8 +41,8 @@ func main() {
 
 ```
 
-# Basic Component
-## component list
+## Basic Component
+### component list
 * Label: Displays static text or images for user guidance.
 * Button: Triggers an action when clicked by the user.
 * RadioBox: Allows single selection from a group of mutually exclusive options.
@@ -52,7 +52,7 @@ func main() {
 * Messages: text list.
 * Input: Collects user data (variants: text, password, integer, float).
 
-## commond attrible
+### commond attrible
 Here are simple descriptions for the methods under the attr package 
 * Point: Represents the X and Y coordinates of a component.
 * Size: Defines the width (W) and height (H) of a component.
@@ -60,7 +60,7 @@ Here are simple descriptions for the methods under the attr package
 
 
 
-# Event
+## Event
 Events are handled through the Eventmethod, which binds standard component events and delegates them to your custom event handler functions. This approach keeps your code clean and focused, abstracting away the low-level details so you can concentrate on defining application behavior.
 
 The event handling interface follows this signature:
@@ -69,5 +69,5 @@ func(sender compose.Component, data *compose.EventData)
 ```
 This provides a clean, unified contract: senderidentifies the component that triggered the event, while datacarries all relevant event information. It decouples your business logic from specific widget implementations, keeping handlers consistent and easy to maintain.
 
-# Bind
+## Bind
 The binding mechanism streamlines your workflow by letting you focus purely on application logic. Once a component is created and bound, data exchange happens automatically through the bind object—no need to wrestle with the underlying component APIs. It abstracts away the complexity, making state synchronization feel seamless and intuitive.
