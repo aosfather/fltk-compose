@@ -25,3 +25,4 @@ go.work.sum
 .env
 example/.DS_Store
 example/quanteye/quanteye
+example/quanteye/roadmap.md
