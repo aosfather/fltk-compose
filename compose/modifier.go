@@ -115,3 +115,19 @@ func Widths(i ...int) Modifier {
 		target.(_Widths).SetColumnWidths(i...)
 	}
 }
+
+type _TextStyleAble interface {
+	setTextStyle(int, string)
+}
+
+func TextStyles(s ...*Style) Modifier {
+	return func(target any) {
+		if s == nil {
+			return
+		}
+		t := target.(_TextStyleAble)
+		for index, st := range s {
+			t.setTextStyle(index, st.ToFormat())
+		}
+	}
+}
