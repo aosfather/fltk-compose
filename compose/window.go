@@ -11,6 +11,11 @@ type Rect struct {
 	y      int
 }
 
+func (r *Rect) reset(x, y int) {
+	r.x += x
+	r.y += y
+}
+
 func (r *Rect) X(x int) {
 	r.x = x
 }

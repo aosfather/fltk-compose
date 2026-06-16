@@ -131,3 +131,13 @@ func TextStyles(s ...*Style) Modifier {
 		}
 	}
 }
+
+type resetPoint interface {
+	reset(x, y int)
+}
+
+func fromPoint(x, y int) Modifier {
+	return func(target any) {
+		target.(resetPoint).reset(x, y)
+	}
+}
