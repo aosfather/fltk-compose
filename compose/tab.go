@@ -14,10 +14,11 @@ type _TitlePanel struct {
 func (t *_TitlePanel) _Render() {
 	t.applyModifier()
 	if t.wrap == nil {
-		t.wrap = fltk.NewTile(t.x, t.y, t.width, t.height, t.title)
+		t.wrap = fltk.NewTile(t.x, t.y+15, t.width, t.height, t.title)
 	}
 	t.wrap.Begin()
 	for _, c := range t.children {
+		c.AddModifier(fromPoint(t.x, t.y+15))
 		c._Render()
 	}
 	t.wrap.End()
