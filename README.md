@@ -1,5 +1,5 @@
 # fltk-compose
-Compose is a GUI framework that adopts the Compose pattern, with its underlying implementation based on FLTK.
+Compose is a golang GUI framework that adopts the Compose pattern, with its underlying implementation based on FLTK.
 
 ## Why fltk
 We chose FLTK because it is lightweight and relatively mature. Our goal is to be more practical and production-ready, rather than merely showcasing technical flair.
