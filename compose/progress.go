@@ -6,6 +6,19 @@ import (
 )
 
 // spin
+type _Spin struct {
+	Rect
+	_Component
+	wrap *fltk.Spinner
+}
+
+func (s *_Spin) _Render() {
+	s.applyModifier()
+	if s.wrap == nil {
+		s.wrap = fltk.NewSpinner(s.x, s.y, s.width, s.height)
+	}
+}
+
 // progress
 type _Progress struct {
 	Rect
@@ -19,6 +32,7 @@ func (p *_Progress) _Render() {
 	p.applyModifier()
 	if p.wrap == nil {
 		p.wrap = fltk.NewProgress(p.x, p.y, p.width, p.height)
+		p.wrap.SetSelectionColor(fltk.BLUE)
 		if p.min >= 0 {
 			p.wrap.SetMinimum(p.min)
 		}
