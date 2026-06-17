@@ -21,3 +21,11 @@ func Options(op ...string) compose.Modifier {
 func Widths(i ...int) compose.Modifier {
 	return compose.Widths(i...)
 }
+
+func Min(m float64) compose.Modifier {
+	return compose.Min(m)
+}
+
+func Max(m float64) compose.Modifier {
+	return compose.Max(m)
+}

@@ -141,3 +141,20 @@ func fromPoint(x, y int) Modifier {
 		target.(resetPoint).reset(x, y)
 	}
 }
+
+type minMax interface {
+	SetMax(v float64)
+	SetMin(v float64)
+}
+
+func Min(x float64) Modifier {
+	return func(target any) {
+		target.(minMax).SetMin(x)
+	}
+}
+
+func Max(x float64) Modifier {
+	return func(target any) {
+		target.(minMax).SetMax(x)
+	}
+}

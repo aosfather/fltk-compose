@@ -21,3 +21,11 @@ func ShowMessageDialog(msg string, button string) {
 func ShowConfirmDialog(msg string, yes string, cancel string) int {
 	return fltk.ChoiceDialog(msg, yes, cancel)
 }
+
+func ShowInputDialog(title, msg string, input string) string {
+	return fltk.MessageInputBox(title, msg, input)
+}
+
+func ShowPassWord(title, msg string, old string) string {
+	return fltk.PassWordBox(title, msg, old)
+}
