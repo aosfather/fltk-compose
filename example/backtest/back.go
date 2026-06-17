@@ -33,7 +33,7 @@ func (b *Back) Init() {
 	tabs.NewTab("盯盘",
 		compose.Progress(attr.Point(10, 20), attr.Size(280, 20), attr.Min(0), attr.Max(100)).Bind(&b.progress),
 		compose.Slider(attr.Point(10, 60), attr.Size(200, 20), attr.Max(16.6)),
-		compose.Spinner(attr.Point(10, 90), attr.Size(200, 20)))
+		compose.Spinner(attr.Point(10, 90), attr.Size(100, 25)))
 	b.Layout(tabs)
 }
 

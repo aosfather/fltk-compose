@@ -50,7 +50,13 @@ func (s *_Spinner) Bind(o *BindObj[float64]) *_Spinner {
 	if o != nil {
 		o.getter = func() float64 { return s.wrap.Value() }
 		o.setter = func(v float64) {
-
+			if v > s.max {
+				v = s.max
+			}
+			if v < s.min {
+				v = s.min
+			}
+			s.wrap.SetValue(v)
 		}
 	}
 	return s
@@ -86,7 +92,13 @@ func (s *_Slider) Bind(o *BindObj[float64]) *_Slider {
 	if o != nil {
 		o.getter = func() float64 { return s.wrap.Value() }
 		o.setter = func(v float64) {
-
+			if v > s.max {
+				v = s.max
+			}
+			if v < s.min {
+				v = s.min
+			}
+			s.wrap.SetValue(v)
 		}
 	}
 	return s
