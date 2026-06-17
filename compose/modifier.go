@@ -145,6 +145,7 @@ func fromPoint(x, y int) Modifier {
 type minMax interface {
 	SetMax(v float64)
 	SetMin(v float64)
+	SetValue(v float64)
 }
 
 func Min(x float64) Modifier {

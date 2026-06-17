@@ -5,14 +5,70 @@ import (
 	"strconv"
 )
 
+type _valueRange struct {
+	min   float64
+	max   float64
+	value float64
+}
+
+func (s *_valueRange) SetMax(v float64) {
+	s.max = v
+	if s.min > s.max {
+		s.min = s.max
+	}
+
+}
+
+func (s *_valueRange) SetMin(v float64) {
+	s.min = v
+	if s.min > s.max {
+		s.max = s.min
+	}
+}
+
+func (s *_valueRange) SetValue(v float64) {
+	s.value = v
+}
+
+// spinner
+type _Spinner struct {
+	Rect
+	_Component
+	_valueRange
+	wrap *fltk.Spinner
+}
+
+func (s *_Spinner) _Render() {
+	s.applyModifier()
+	if s.wrap == nil {
+		s.wrap = fltk.NewSpinner(s.x, s.y, s.width, s.height)
+		s.wrap.SetType(fltk.SPINNER_FLOAT_INPUT)
+	}
+}
+
+func (s *_Spinner) Bind(o *BindObj[float64]) *_Spinner {
+	if o != nil {
+		o.getter = func() float64 { return s.wrap.Value() }
+		o.setter = func(v float64) {
+
+		}
+	}
+	return s
+}
+
+func Spinner(m ...Modifier) *_Spinner {
+	s := &_Spinner{}
+	s.modifiers = m
+	s.self = s
+	return s
+}
+
 // Slider
 type _Slider struct {
 	Rect
 	_Component
-	wrap         *fltk.Slider
-	max          float64
-	min          float64
-	defaultValue float64
+	wrap *fltk.Slider
+	_valueRange
 }
 
 func (s *_Slider) _Render() {
@@ -20,25 +76,9 @@ func (s *_Slider) _Render() {
 	if s.wrap == nil {
 		s.wrap = fltk.NewSlider(s.x, s.y, s.width, s.height)
 		s.wrap.SetType(fltk.HOR_NICE_SLIDER)
-		s.wrap.SetValue(s.defaultValue)
+		s.wrap.SetValue(s.value)
 		s.wrap.SetMinimum(s.min)
 		s.wrap.SetMaximum(s.max)
-	}
-}
-
-func (s *_Slider) SetMax(v float64) {
-	if v > 0 {
-		s.max = v
-		if s.min > s.max {
-			s.min = s.max
-		}
-	}
-
-}
-
-func (s *_Slider) SetMin(v float64) {
-	if v >= 0 {
-		s.min = v
 	}
 }
 
@@ -64,8 +104,7 @@ type _Progress struct {
 	Rect
 	_Component
 	wrap *fltk.Progress
-	max  float64
-	min  float64
+	_valueRange
 }
 
 func (p *_Progress) _Render() {
@@ -80,22 +119,6 @@ func (p *_Progress) _Render() {
 			p.wrap.SetMaximum(p.max)
 		}
 
-	}
-}
-
-func (p *_Progress) SetMax(v float64) {
-	if v > 0 {
-		p.max = v
-		if p.min > p.max {
-			p.min = p.max
-		}
-	}
-
-}
-
-func (p *_Progress) SetMin(v float64) {
-	if v >= 0 {
-		p.min = v
 	}
 }
 
