@@ -5,18 +5,58 @@ import (
 	"strconv"
 )
 
-// spin
-type _Spin struct {
+// Slider
+type _Slider struct {
 	Rect
 	_Component
-	wrap *fltk.Spinner
+	wrap         *fltk.Slider
+	max          float64
+	min          float64
+	defaultValue float64
 }
 
-func (s *_Spin) _Render() {
+func (s *_Slider) _Render() {
 	s.applyModifier()
 	if s.wrap == nil {
-		s.wrap = fltk.NewSpinner(s.x, s.y, s.width, s.height)
+		s.wrap = fltk.NewSlider(s.x, s.y, s.width, s.height)
+		s.wrap.SetType(fltk.HOR_NICE_SLIDER)
+		s.wrap.SetValue(s.defaultValue)
+		s.wrap.SetMinimum(s.min)
+		s.wrap.SetMaximum(s.max)
 	}
+}
+
+func (s *_Slider) SetMax(v float64) {
+	if v > 0 {
+		s.max = v
+		if s.min > s.max {
+			s.min = s.max
+		}
+	}
+
+}
+
+func (s *_Slider) SetMin(v float64) {
+	if v >= 0 {
+		s.min = v
+	}
+}
+
+func (s *_Slider) Bind(o *BindObj[float64]) *_Slider {
+	if o != nil {
+		o.getter = func() float64 { return s.wrap.Value() }
+		o.setter = func(v float64) {
+
+		}
+	}
+	return s
+}
+
+func Slider(m ...Modifier) *_Slider {
+	s := &_Slider{}
+	s.modifiers = m
+	s.self = s
+	return s
 }
 
 // progress
