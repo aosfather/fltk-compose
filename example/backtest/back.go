@@ -27,7 +27,7 @@ func (b *Back) Init() {
 		compose.Label(attr.M().Point(10, 15).Size(20, 10).Title("产品").M()...),
 		compose.Input(compose.IM_Normal, attr.M().Point(40, 10).Size(180, 25).M()...).Bind(&b.product),
 		compose.Label(attr.M().Point(10, 45).Size(20, 10).Title("工程").M()...),
-		compose.Input(compose.IM_Normal, attr.Point(40, 40), attr.Size(180, 25)).Bind(&b.project),
+		compose.Input(compose.IM_Normal, attr.M().Point(40, 40).Size(180, 25).M()...).Bind(&b.project),
 		compose.Button(attr.M().Point(200, 75).Size(80, 20).Title("开始回测").M()...).Event(b.startBackTest),
 		compose.LogView(attr.M().Point(10, 100).Size(280, 260).M()...).Bind(&b.view))
 	tabs.NewTab("盯盘",

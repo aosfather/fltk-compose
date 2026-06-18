@@ -15,7 +15,7 @@ import (
 
 func main() {
 	app := QuantEye{}
-	app.Layout(attr.Size(400, 500), attr.Title("盯盘")).Run()
+	app.Layout(attr.Size(400, 500), attr.Title("QuantEye-亮眼")).Run()
 }
 
 type QuantEye struct {
@@ -27,6 +27,12 @@ type QuantEye struct {
 	cb_weixin   compose.BindObj[bool]
 	bt_start    compose.BindObj[bool]
 	messages    compose.BindObj[compose.MessageList]
+	//回测
+	product  compose.BindObj[string]
+	project  compose.BindObj[string]
+	view     compose.BindObj[compose.Log]
+	progress compose.BindObj[float64]
+
 	weixin      *Weixin
 	recentValue *QuantEyeRecent
 	canNotify   bool
@@ -36,25 +42,33 @@ type QuantEye struct {
 
 func (q *QuantEye) Layout(m ...compose.Modifier) *compose.Application {
 	q.application = compose.App(m...)
-	q.application.Layout(compose.Label(attr.Point(10, 15), attr.Size(20, 10), attr.Title("产品")),
-		compose.Input(compose.IM_Normal, attr.Point(40, 10), attr.Size(180, 25)).Bind(&q.it_product),
-	)
-
-	//选择val
-	q.application.Layout(compose.Label(attr.Point(10, 45), attr.Size(20, 10), attr.Title("间隔")),
-		compose.ComboBox(attr.Point(40, 40), attr.Size(160, 25), attr.Options("1m", "3m", "5m", "15m")).Bind(&q.cc_val).BindText(&q.cc_valText),
-		compose.CheckBox(attr.Point(240, 45), attr.Size(20, 10), attr.Title("微信Claw通知")).Bind(&q.cb_weixin),
-	)
-
-	//输入工程，开始盯盘
-	q.application.Layout(compose.Label(attr.Point(10, 75), attr.Size(20, 10), attr.Title("工程")),
-		compose.Input(compose.IM_Normal, attr.Point(40, 70), attr.Size(180, 25)).Bind(&q.it_project),
-		compose.Button(attr.Point(240, 70), attr.Size(80, 25), attr.Title("开始")).Event(q.start).Bind(&q.bt_start))
-
-	//消息
-	q.application.Layout(compose.Messages(attr.Point(10, 100), attr.Size(380, 390), attr.Widths(380)).Bind(&q.messages))
+	q.tabs()
 	q.application.Event(q.AfterRender)
 	return q.application
+}
+
+func (q *QuantEye) tabs() {
+	tabs := compose.Tabs(attr.M().Point(0, 0).Size(400, 500).M()...)
+	tabs.NewTab("盯盘",
+		compose.Label(attr.M().Point(10, 15).Size(20, 10).Title("产品").M()...),
+		compose.Input(compose.IM_Normal, attr.M().Point(40, 10).Size(180, 25).M()...).Bind(&q.it_product),
+		compose.Label(attr.M().Point(10, 45).Size(20, 10).Title("间隔").M()...),
+		compose.ComboBox(attr.M().Point(40, 40).Size(160, 25).Options("1m", "3m", "5m", "15m").M()...).Bind(&q.cc_val).BindText(&q.cc_valText),
+		compose.CheckBox(attr.M().Point(240, 45).Size(20, 10).Title("微信Claw通知").M()...).Bind(&q.cb_weixin),
+		compose.Label(attr.M().Point(10, 75).Size(20, 10).Title("工程").M()...),
+		compose.Input(compose.IM_Normal, attr.M().Point(40, 70).Size(180, 25).M()...).Bind(&q.it_project),
+		compose.Button(attr.M().Point(240, 70).Size(80, 25).Title("开始").M()...).Event(q.start).Bind(&q.bt_start),
+		compose.Messages(attr.M().Point(10, 100).Size(380, 375).Widths(380).M()...).Bind(&q.messages))
+
+	tabs.NewTab("回测",
+		compose.Label(attr.M().Point(10, 15).Size(20, 10).Title("产品").M()...),
+		compose.Input(compose.IM_Normal, attr.M().Point(40, 10).Size(180, 25).M()...).Bind(&q.product),
+		compose.Label(attr.M().Point(10, 45).Size(20, 10).Title("工程").M()...),
+		compose.Input(compose.IM_Normal, attr.M().Point(40, 40).Size(180, 25).M()...).Bind(&q.project),
+		compose.Button(attr.M().Point(240, 40).Size(80, 25).Title("开始回测").M()...).Event(q.startBackTest),
+		compose.LogView(attr.M().Point(10, 70).Size(380, 405).M()...).Bind(&q.view))
+
+	q.application.Layout(tabs)
 }
 
 func (q *QuantEye) start(sender compose.Component, data *compose.EventData) {
@@ -154,6 +168,12 @@ func (q *QuantEye) notify(msg string) {
 	if q.canNotify && q.weixin != nil {
 		q.weixin.Notify(msg)
 	}
+}
+
+func (q *QuantEye) startBackTest(sender compose.Component, data *compose.EventData) {
+	log := q.view.Get()
+	log.Error("buy:%s\n", q.product.Get())
+	log.Warn("sell:%s", q.product.Get())
 }
 
 const _File = "./last.json"
