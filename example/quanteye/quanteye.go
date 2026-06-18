@@ -187,6 +187,7 @@ func (q *QuantEye) startBackTest(sender compose.Component, data *compose.EventDa
 	cmd := cli.NewCmdSource(app, q.showBackTestOut, "")
 	cmd.Open("--source=real", "--target="+product, "back", project)
 }
+
 func (q *QuantEye) showBackTestOut(text string) {
 	log := q.view.Get()
 	if strings.Contains(text, "sell") {
