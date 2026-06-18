@@ -28,10 +28,11 @@ type QuantEye struct {
 	bt_start    compose.BindObj[bool]
 	messages    compose.BindObj[compose.MessageList]
 	//回测
-	product  compose.BindObj[string]
-	project  compose.BindObj[string]
-	view     compose.BindObj[compose.Log]
-	progress compose.BindObj[float64]
+	product    compose.BindObj[string]
+	project    compose.BindObj[string]
+	view       compose.BindObj[compose.Log]
+	progress   compose.BindObj[float64]
+	back_start compose.BindObj[bool]
 
 	weixin      *Weixin
 	recentValue *QuantEyeRecent
@@ -65,7 +66,7 @@ func (q *QuantEye) tabs() {
 		compose.Input(compose.IM_Normal, attr.M().Point(40, 10).Size(180, 25).M()...).Bind(&q.product),
 		compose.Label(attr.M().Point(10, 45).Size(20, 10).Title("工程").M()...),
 		compose.Input(compose.IM_Normal, attr.M().Point(40, 40).Size(180, 25).M()...).Bind(&q.project),
-		compose.Button(attr.M().Point(240, 40).Size(80, 25).Title("开始回测").M()...).Event(q.startBackTest),
+		compose.Button(attr.M().Point(240, 40).Size(80, 25).Title("开始回测").M()...).Event(q.startBackTest).Bind(&q.back_start),
 		compose.LogView(attr.M().Point(10, 70).Size(380, 405).M()...).Bind(&q.view))
 
 	q.application.Layout(tabs)
@@ -171,9 +172,29 @@ func (q *QuantEye) notify(msg string) {
 }
 
 func (q *QuantEye) startBackTest(sender compose.Component, data *compose.EventData) {
+
+	product := q.product.Get()
+	project := q.project.Get()
+	if product == "" || project == "" {
+		ui.ShowMessage("错误", "请输入产品和需要回测的策略工程")
+		return
+	}
+
+	q.back_start.Set(false)
+	//构建cmd命令，并执行
+	path := cli.GetAppPath("./")
+	app := path + "eombot"
+	cmd := cli.NewCmdSource(app, q.showBackTestOut, "")
+	cmd.Open("--source=real", "--target="+product, "back", project)
+}
+func (q *QuantEye) showBackTestOut(text string) {
 	log := q.view.Get()
-	log.Error("buy:%s\n", q.product.Get())
-	log.Warn("sell:%s", q.product.Get())
+	if strings.Contains(text, "sell") {
+		log.Warn(text)
+	} else if strings.Contains(text, "buy") {
+		log.Debug(text)
+	}
+
 }
 
 const _File = "./last.json"
