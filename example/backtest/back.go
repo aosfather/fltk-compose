@@ -7,7 +7,7 @@ import (
 
 func main() {
 	b := Back{}
-	b.AddModifier(attr.Point(10, 10), attr.Size(300, 400), attr.Title("QuantEye"))
+	b.AddModifier(attr.M().Point(10, 10).Size(300, 400).Title("QuantEye").M()...)
 	b.Init()
 	b.Run()
 }
@@ -21,20 +21,20 @@ type Back struct {
 }
 
 func (b *Back) Init() {
-	tabs := compose.Tabs(attr.Point(0, 0), attr.Size(300, 400))
+	tabs := compose.Tabs(attr.M().Point(0, 0).Size(300, 400).M()...)
 
 	tabs.NewTab("回测",
-		compose.Label(attr.Point(10, 15), attr.Size(20, 10), attr.Title("产品")),
-		compose.Input(compose.IM_Normal, attr.Point(40, 10), attr.Size(180, 25)).Bind(&b.product),
-		compose.Label(attr.Point(10, 45), attr.Size(20, 10), attr.Title("工程")),
+		compose.Label(attr.M().Point(10, 15).Size(20, 10).Title("产品").M()...),
+		compose.Input(compose.IM_Normal, attr.M().Point(40, 10).Size(180, 25).M()...).Bind(&b.product),
+		compose.Label(attr.M().Point(10, 45).Size(20, 10).Title("工程").M()...),
 		compose.Input(compose.IM_Normal, attr.Point(40, 40), attr.Size(180, 25)).Bind(&b.project),
-		compose.Button(attr.Point(200, 75), attr.Size(80, 20), attr.Title("开始回测")).Event(b.startBackTest),
-		compose.LogView(attr.Point(10, 100), attr.Size(280, 260)).Bind(&b.view))
+		compose.Button(attr.M().Point(200, 75).Size(80, 20).Title("开始回测").M()...).Event(b.startBackTest),
+		compose.LogView(attr.M().Point(10, 100).Size(280, 260).M()...).Bind(&b.view))
 	tabs.NewTab("盯盘",
-		compose.Progress(attr.Point(10, 20), attr.Size(280, 20), attr.Min(0), attr.Max(100)).Bind(&b.progress),
-		compose.Slider(attr.Point(10, 60), attr.Size(200, 20), attr.Max(16.6)),
-		compose.Spinner(attr.Point(10, 90), attr.Size(100, 25)),
-		compose.Table(attr.Point(10, 120), attr.Size(260, 200)))
+		compose.Progress(attr.M().Point(10, 20).Size(280, 20).Min(0).Max(100).M()...).Bind(&b.progress),
+		compose.Slider(attr.M().Point(10, 60).Size(200, 20).Max(16.6).M()...),
+		compose.Spinner(attr.M().Point(10, 90).Size(100, 25).M()...),
+		compose.Table(attr.M().Point(10, 120).Size(260, 200).M()...))
 	b.Layout(tabs)
 }
 
